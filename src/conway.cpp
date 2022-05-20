@@ -71,7 +71,7 @@ void Conway::displayGrid()
     {
         for (unsigned int j = 0; j < displayY; ++j)
         {
-            std::cout << (currentState[i + offSet][j + offSet] ? "+" : "-") << " ";
+            std::cout << (currentState[i + offSet][j + offSet] ? "+" : " ") << " ";
         }
         std::cout << '\n';
     }

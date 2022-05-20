@@ -15,6 +15,29 @@ int main()
         {4, 6},
         {3, 5},
     };
-    Conway gameOfLife = Conway(pattern);
+
+    std::array<std::array<bool, yDimension>, xDimension> initialPattern
+    {
+        std::array<bool, yDimension>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0},
+        std::array<bool, yDimension>{0,0,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0},
+        std::array<bool, yDimension>{0,0,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0},
+        std::array<bool, yDimension>{0,0,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0},
+        std::array<bool, yDimension>{0,0,1,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,1,1,1,0,0,0,1,1,1,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+        std::array<bool, yDimension>{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},        
+    };
+
+    Conway gameOfLife = Conway(initialPattern);
     gameOfLife.run();
 }

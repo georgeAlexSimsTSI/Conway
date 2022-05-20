@@ -1,8 +1,8 @@
 #ifndef CONWAY_H
 #define CONWAY_H
 
-#define xDimension 14 // only displaying center 10
-#define yDimension 12 // only displaying center 5
+#define xDimension 18 // only displaying center 10
+#define yDimension 18 // only displaying center 5
 
 #define offSet 2
 
@@ -19,7 +19,7 @@ private:
     using Coord = std::pair<unsigned int, unsigned int>; // doing this so that I get some practice
     using Grid = std::array<std::array<bool, yDimension>, xDimension>;
 
-    unsigned int displayX = 10, displayY = 8;
+    unsigned int displayX = 14, displayY = 14;
 
     // array of living or dead cells, only 2 states so using a boolean value
     Grid currentState; // [x][y]
