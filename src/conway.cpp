@@ -6,7 +6,7 @@ using Grid = std::array<std::array<bool, yDimension>, xDimension>;
 // determine if the provided position is inside the grid
 bool Conway::isValidPosition(const Coord &pos)
 {
-    return true;
+    return (pos.first < 0 || pos.first >= xDimension && pos.second < 0 || pos.second >= yDimension);
 }
 
 // return a vector containing coordinates of the surrounding cells that are inside the valid bounds

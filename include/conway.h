@@ -1,8 +1,8 @@
 #ifndef CONWAY_H
 #define CONWAY_H
 
-#define xDimension 10
-#define yDimension 5
+#define xDimension 14 // only displaying center 10
+#define yDimension 9  // only displaying center 5
 
 #include <array>
 #include <vector>

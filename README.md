@@ -18,7 +18,7 @@
 · Each cell is represented by a “.” for dead and “*” for living
 · Initial state or a seed world will need to be used to kick off the life
 · Your code should use the seed world to generate the next generation
-· Correctly handle cells that start to “go off the board” cells that go off the edge do not get displayed
+· Correctly handle cells that start to “go off the board” cells that go off the edge do not get displayed, still model them off the screen but just don't display them
 </pre>
 
 ## Example
