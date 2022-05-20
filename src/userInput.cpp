@@ -17,4 +17,19 @@ namespace userInput
         }
         return c;
     }
+
+    char waitForCharInput()
+    {
+        char c = '_';
+        while (true)
+        {
+            if (_kbhit())
+            {
+                c = _getch();
+                break;
+            }
+            sleep(1);
+        }
+        return c;
+    }
 }

@@ -111,6 +111,7 @@ Grid Conway::produceNextState(const Grid &initialState)
 void Conway::run()
 {
     Grid initialState = currentState;
+    bool manual = false;
     while (true)
     {
         bool loopCondition = true;
@@ -120,8 +121,18 @@ void Conway::run()
             system("cls");
             displayGrid();
             // wait for input
+
+            if (manual)
+            {
+                c = userInput::waitForCharInput();
+            }
+            else
+            {
+                c = userInput::waitForCharInput(1);
+            }
+
             currentState = produceNextState(currentState);
-            c = userInput::waitForCharInput(1);
+
             switch (c)
             {
             case '_':
@@ -134,6 +145,10 @@ void Conway::run()
                 break;
             case 'p':
                 system("pause");
+                break;
+            case 'm':
+                manual = !manual;
+                break;
             }
         }
         if (c == 'q')

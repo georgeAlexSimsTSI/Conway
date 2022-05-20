@@ -12,5 +12,12 @@ namespace userInput
      * @return char the entered character
      */
     char waitForCharInput(int seconds);
+
+    /**
+     * @brief Wait forever for an input
+     * 
+     * @return char 
+     */
+    char waitForCharInput();
 };
 #endif
