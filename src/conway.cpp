@@ -27,7 +27,15 @@ std::vector<Coord> Conway::getSurroundingCells(const Coord &pos)
 // get the sum value of the surrounding cells
 unsigned int Conway::calculateCellValue(const Coord &pos)
 {
-    return 0u;
+    auto positions = getSurroundingCells(pos);
+    unsigned int val = 0;
+
+    for (const auto &[x, y] : positions)
+    {
+        val += (currentState[x][y]);
+    }
+
+    return val;
 }
 
 // given number of surrounding cells determine if will become alive or dead
