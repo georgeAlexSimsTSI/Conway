@@ -25,10 +25,10 @@ private:
     Grid currentState; // [x][y]
 
     // determine if the provided position is inside the grid
-    bool isValidPosition(const Coord &pos);
+    static bool isValidPosition(const Coord &pos);
 
     // return a vector containing coordinates of the surrounding cells that are inside the valid bounds
-    std::vector<Coord> getSurroundingCells(const Coord &pos);
+    static std::vector<Coord> getSurroundingCells(const Coord &pos);
 
     // get the sum value of the surrounding cells
     unsigned int calculateCellValue(const Coord &pos);

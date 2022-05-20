@@ -19,14 +19,7 @@ std::vector<Coord> Conway::getSurroundingCells(const Coord &pos)
     std::vector<Coord> possiblePositions = {{x + 1, y}, {x - 1, y}, {x, y + 1}, {x, y - 1}, {x + 1, y - 1}, {x + 1, y + 1}, {x - 1, y + 1}, {x - 1, y - 1}};
     std::vector<Coord> validPositions;
 
-    // std::copy_if(possiblePositions.begin(), possiblePositions.end(), std::back_inserter(validPositions), isValidPosition);
-    for (const auto &i : possiblePositions)
-    {
-        if (isValidPosition(i))
-        {
-            validPositions.push_back(i); // debug copy_if later
-        }
-    }
+    std::copy_if(possiblePositions.begin(), possiblePositions.end(), std::back_inserter(validPositions), isValidPosition);
 
     return validPositions;
 }
