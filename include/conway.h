@@ -2,11 +2,15 @@
 #define CONWAY_H
 
 #define xDimension 14 // only displaying center 10
-#define yDimension 9  // only displaying center 5
+#define yDimension 12 // only displaying center 5
+
+#define offSet 2
 
 #include <array>
 #include <vector>
 #include <iostream>
+
+#include "./userinput.h"
 
 class Conway
 {
@@ -14,6 +18,8 @@ class Conway
 private:
     using Coord = std::pair<unsigned int, unsigned int>; // doing this so that I get some practice
     using Grid = std::array<std::array<bool, yDimension>, xDimension>;
+
+    unsigned int displayX = 10, displayY = 8;
 
     // array of living or dead cells, only 2 states so using a boolean value
     Grid currentState; // [x][y]
@@ -28,7 +34,7 @@ private:
     unsigned int calculateCellValue(const Coord &pos);
 
     // given number of surrounding cells determine if will become alive or dead
-    bool isCellAlive(const unsigned int &val);
+    bool isCellAliveNextTurn(const unsigned int &val, const bool &isAlive);
 
     // determines this cells state for the next position
     bool aliveInNextIteration(const Coord &pos);
