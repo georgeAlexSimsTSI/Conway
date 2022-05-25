@@ -3,29 +3,35 @@
 #include <algorithm>
 
 using Coord = std::pair<unsigned int, unsigned int>; // doing this so that I get some practice
-using Grid = std::array<std::array<bool, yDimension>, xDimension>;
+using Grid = std::vector<std::vector<bool>>;
 
 // determine if the provided position is inside the grid
-bool Conway::isValidPosition(const Coord &pos)
+bool Conway::isValidPosition(const Coord &pos) const noexcept
 {
     auto [x, y] = pos;
-    return !(x < 0 || x >= xDimension || y < 0 || y >= yDimension);
+    return !(x < 0 || x >= xBounds || y < 0 || y >= yBounds);
 }
 
 // return a vector containing coordinates of the surrounding cells that are inside the valid bounds
-std::vector<Coord> Conway::getSurroundingCells(const Coord &pos)
+std::vector<Coord> Conway::getSurroundingCells(const Coord &pos) const noexcept
 {
     auto [x, y] = pos;
     std::vector<Coord> possiblePositions = {{x + 1, y}, {x - 1, y}, {x, y + 1}, {x, y - 1}, {x + 1, y - 1}, {x + 1, y + 1}, {x - 1, y + 1}, {x - 1, y - 1}};
     std::vector<Coord> validPositions;
 
-    std::copy_if(possiblePositions.begin(), possiblePositions.end(), std::back_inserter(validPositions), isValidPosition);
+    // std::copy_if(possiblePositions.begin(), possiblePositions.end(), std::back_inserter(validPositions), isValidPosition);
+
+    for (auto &i : possiblePositions)
+    {
+        if (isValidPosition(i))
+            validPositions.push_back(i);
+    }
 
     return validPositions;
 }
 
 // get the sum value of the surrounding cells
-unsigned int Conway::calculateCellValue(const Coord &pos) const
+unsigned int Conway::calculateCellValue(const Coord &pos) const noexcept
 {
     auto positions = getSurroundingCells(pos);
     unsigned int val = 0;
@@ -39,7 +45,7 @@ unsigned int Conway::calculateCellValue(const Coord &pos) const
 }
 
 // given number of surrounding cells determine if will become alive or dead
-bool Conway::isCellAliveNextTurn(const unsigned int &val, const bool &isAlive) const
+bool Conway::isCellAliveNextTurn(const unsigned int &val, const bool &isAlive) noexcept
 {
     // if its alive then it will stay alive if val is 2 or 3
     // if it is not alive then it will become alive if val == 3
@@ -47,7 +53,7 @@ bool Conway::isCellAliveNextTurn(const unsigned int &val, const bool &isAlive) c
 }
 
 // determines this cells state for the next position
-bool Conway::aliveInNextIteration(const Coord &pos) const
+bool Conway::aliveInNextIteration(const Coord &pos) const noexcept
 {
     unsigned int cellValue = calculateCellValue(pos);             // get the number of cells around the current pos that are alive
     bool isAlive = currentState[pos.first][pos.second];           // is the cell currently alive?
@@ -56,40 +62,43 @@ bool Conway::aliveInNextIteration(const Coord &pos) const
 }
 
 // output the current grid state to the console
-void Conway::displayGrid() const
+void Conway::displayGrid() const noexcept
 {
     // should only display the 10 x 5 central grid
     // assuming that the grid is atleast 10 x 5
-    for (unsigned int i = 0; i < displayX; ++i)
+    for (unsigned int i = 0; i < displayBoundsX; ++i)
     {
-        for (unsigned int j = 0; j < displayY; ++j)
+        for (unsigned int j = 0; j < displayBoundsY; ++j)
         {
             std::cout << (currentState[i + offSet][j + offSet] ? "+" : " ") << " ";
         }
         std::cout << '\n';
     }
-}
-
-// method to wait for a user input
-char Conway::waitForInput() const
-{
-    return '_';
+    std::cout << std::endl;
 }
 
 Conway::Conway(const Grid &initialState) : currentState(initialState)
 {
+    xBounds = initialState.size();
+    yBounds = initialState[0].size();
+    displayBoundsX = xBounds - offSet;
+    displayBoundsY = yBounds - offSet;
 }
 
-Conway::Conway(const std::vector<Coord> &pattern)
+Conway::Conway(const std::vector<Coord> &pattern, const unsigned int &xBounds, const unsigned int &yBounds) : xBounds(xBounds), yBounds(yBounds)
 {
-    for (auto &i : currentState)
-    {
-        std::fill(i.begin(), i.end(), 0);
-    }
+    currentState.resize(xBounds, std::vector<bool>(yBounds));
 
+    // want to find the offset shift to put it in the center
+    // assuming the pattern is 0 centered
+    displayBoundsX = xBounds - offSet;
+    displayBoundsY = yBounds - offSet;
+
+    int xShift = (xBounds - offSet) / 2;
+    int yShift = (yBounds - offSet) / 2;
     for (auto &[x, y] : pattern)
     {
-        currentState[x][y] = true;
+        currentState[x + xShift][y + yShift] = true;
     }
 }
 
@@ -97,9 +106,10 @@ Conway::Conway(const std::vector<Coord> &pattern)
 Grid Conway::produceNextState(const Grid &initialState) const
 {
     Grid nextState;
-    for (unsigned int i = 0; i < xDimension; ++i)
+    nextState.resize(xBounds, std::vector<bool>(yBounds));
+    for (unsigned int i = 0; i < xBounds; ++i)
     {
-        for (unsigned int j = 0; j < yDimension; ++j)
+        for (unsigned int j = 0; j < yBounds; ++j)
         {
             nextState[i][j] = aliveInNextIteration({i, j});
         }
@@ -122,6 +132,8 @@ void Conway::run()
             displayGrid();
             // wait for input
 
+            displayMenu();
+
             if (manual)
             {
                 c = userInput::waitForCharInput();
@@ -137,15 +149,19 @@ void Conway::run()
             {
             case '_':
                 continue;
+            case 'R':
             case 'r':
                 loopCondition = false;
                 break;
+            case 'Q':
             case 'q':
                 loopCondition = false;
                 break;
+            case 'P':
             case 'p':
                 system("pause");
                 break;
+            case 'M':
             case 'm':
                 manual = !manual;
                 break;
@@ -158,4 +174,9 @@ void Conway::run()
             currentState = initialState;
         }
     }
+}
+
+void Conway::displayMenu() const
+{
+    std::cout << "M to switch progression mode \nP to pause \nR to reset \nQ to exit \n";
 }
