@@ -31,26 +31,26 @@ private:
     static std::vector<Coord> getSurroundingCells(const Coord &pos);
 
     // get the sum value of the surrounding cells
-    unsigned int calculateCellValue(const Coord &pos);
+    unsigned int calculateCellValue(const Coord &pos) const;
 
     // given number of surrounding cells determine if will become alive or dead
-    bool isCellAliveNextTurn(const unsigned int &val, const bool &isAlive);
+    bool isCellAliveNextTurn(const unsigned int &val, const bool &isAlive) const;
 
     // determines this cells state for the next position
-    bool aliveInNextIteration(const Coord &pos);
+    bool aliveInNextIteration(const Coord &pos) const;
 
     // output the current grid state to the console
-    void displayGrid();
+    void displayGrid() const;
 
     // method to wait for a user input
-    char waitForInput();
+    char waitForInput() const;
 
 public:
     explicit Conway(const Grid &initialState);
     explicit Conway(const std::vector<Coord> &pattern);
 
     // Take an initial state and produce the next iteration
-    Grid produceNextState(const Grid &initialState);
+    Grid produceNextState(const Grid &initialState) const;
 
     // main run method
     void run();
