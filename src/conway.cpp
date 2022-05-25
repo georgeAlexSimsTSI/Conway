@@ -18,7 +18,9 @@ std::vector<Coord> Conway::getSurroundingCells(const Coord &pos) const noexcept
     auto [x, y] = pos;
     std::vector<Coord> possiblePositions = {{x + 1, y}, {x - 1, y}, {x, y + 1}, {x, y - 1}, {x + 1, y - 1}, {x + 1, y + 1}, {x - 1, y + 1}, {x - 1, y - 1}};
     std::vector<Coord> validPositions;
+    validPositions.reserve(possiblePositions.size());
 
+    // throws an error that I dont have time to debug
     // std::copy_if(possiblePositions.begin(), possiblePositions.end(), std::back_inserter(validPositions), isValidPosition);
 
     for (auto &i : possiblePositions)
