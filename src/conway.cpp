@@ -91,8 +91,8 @@ Conway::Conway(const Grid &initialState) : currentState(initialState)
 
     xBounds = currentState.size();
     yBounds = currentState[0].size();
-    displayBoundsX = xBounds - offSet;
-    displayBoundsY = yBounds - offSet;
+    displayBoundsX = xBounds - (offSet*2);
+    displayBoundsY = yBounds - (offSet*2);
 }
 
 Conway::Conway(const std::vector<Coord> &pattern, const unsigned int &xBounds, const unsigned int &yBounds) : xBounds(xBounds), yBounds(yBounds)
