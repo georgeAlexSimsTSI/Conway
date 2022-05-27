@@ -70,23 +70,47 @@ void Conway::displayGrid() const noexcept
 
 Conway::Conway(const Grid &initialState) : currentState(initialState)
 {
-    xBounds = initialState.size();
-    yBounds = initialState[0].size();
+    // adding a buffer around the grid to let moving patterns go off screen
+    using boolVec = std::vector<bool>;
+
+    for (unsigned int y = 0; y < offSet; ++y)
+    {
+        currentState.insert(currentState.begin(), boolVec(initialState.size(), false));
+        currentState.insert(currentState.end(), boolVec(initialState.size(), false));
+    }
+
+    for (unsigned int x = 0; x < currentState.size(); ++x)
+    {
+        for (unsigned int y = 0; y < offSet; ++y)
+        {
+            boolVec *row = &currentState[x];
+            row->insert(row->begin(), false);
+            row->insert(row->end(), false);
+        }
+    }
+
+    xBounds = currentState.size();
+    yBounds = currentState[0].size();
     displayBoundsX = xBounds - offSet;
     displayBoundsY = yBounds - offSet;
 }
 
 Conway::Conway(const std::vector<Coord> &pattern, const unsigned int &xBounds, const unsigned int &yBounds) : xBounds(xBounds), yBounds(yBounds)
 {
-    currentState.resize(xBounds, std::vector<bool>(yBounds));
 
     // want to find the offset shift to put it in the center
     // assuming the pattern is 0 centered
-    displayBoundsX = xBounds - offSet;
-    displayBoundsY = yBounds - offSet;
+    displayBoundsX = xBounds;
+    displayBoundsY = yBounds;
 
-    int xShift = (xBounds - offSet) / 2;
-    int yShift = (yBounds - offSet) / 2;
+    int xShift = (displayBoundsX) / 2;
+    int yShift = (displayBoundsY) / 2;
+
+    this->xBounds += offSet*2;
+    this->yBounds += offSet*2;
+
+    currentState.resize(this->xBounds, std::vector<bool>(this->yBounds,false));
+
     for (auto &[x, y] : pattern)
     {
         currentState[x + xShift][y + yShift] = true;

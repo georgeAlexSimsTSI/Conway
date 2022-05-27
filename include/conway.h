@@ -15,7 +15,7 @@ private:
 
     unsigned int xBounds = 18, yBounds = 18;
     unsigned int displayBoundsX = 14, displayBoundsY = 14;
-    unsigned int offSet = 2;
+    unsigned int offSet = 5;
 
     // vector of living or dead cells, only 2 states so using a boolean value
     Grid currentState; // [x][y]
