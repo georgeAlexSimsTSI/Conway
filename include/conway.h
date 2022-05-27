@@ -20,9 +20,6 @@ private:
     // vector of living or dead cells, only 2 states so using a boolean value
     Grid currentState; // [x][y]
 
-    // determine if the provided position is inside the grid
-    bool isValidPosition(const Coord &pos) const noexcept;
-
     // return a vector containing coordinates of the surrounding cells that are inside the valid bounds
     std::vector<Coord> getSurroundingCells(const Coord &pos) const noexcept;
 

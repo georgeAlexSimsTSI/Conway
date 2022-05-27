@@ -5,13 +5,6 @@
 using Coord = std::pair<unsigned int, unsigned int>; // doing this so that I get some practice
 using Grid = std::vector<std::vector<bool>>;
 
-// determine if the provided position is inside the grid
-bool Conway::isValidPosition(const Coord &pos) const noexcept
-{
-    auto [x, y] = pos;
-    return !(x < 0 || x >= xBounds || y < 0 || y >= yBounds);
-}
-
 // return a vector containing coordinates of the surrounding cells that are inside the valid bounds
 std::vector<Coord> Conway::getSurroundingCells(const Coord &pos) const noexcept
 {
@@ -20,14 +13,10 @@ std::vector<Coord> Conway::getSurroundingCells(const Coord &pos) const noexcept
     std::vector<Coord> validPositions;
     validPositions.reserve(possiblePositions.size());
 
-    // throws an error that I dont have time to debug
-    // std::copy_if(possiblePositions.begin(), possiblePositions.end(), std::back_inserter(validPositions), isValidPosition);
-
-    for (auto &i : possiblePositions)
-    {
-        if (isValidPosition(i))
-            validPositions.push_back(i);
-    }
+    auto isValid = [this](const Coord &pos)
+    {    auto [x, y] = pos;
+    return !(x < 0 || x >= xBounds || y < 0 || y >= yBounds); };
+    std::copy_if(possiblePositions.begin(), possiblePositions.end(), std::back_inserter(validPositions), isValid);
 
     return validPositions;
 }
